@@ -28,7 +28,7 @@ def random_clifford_brickwork(state):
     if type(state) == majoranaprop:
         pass
 
-def random_matchgate_brickwork(state):
+def (state):
 
     if type(state) == mps:
         for depth, sites
