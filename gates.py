@@ -6,6 +6,7 @@ import random
 import quimb.tensor as qtn
 import numpy as np
 from tqdm import tqdm
+import random
 
 #fundamental gates for simulation
 H = 1/np.sqrt(2) * np.array([[1,1],[1,-1]])
@@ -202,3 +203,109 @@ def random_fendley(N):
     """
 
     pass
+
+
+def JW(N):
+
+    """Generate the Jordan-Wigner majoranas as text strings for given N.
+
+    Args:
+        N (int): Number of qubits in the system.
+
+    Returns:
+        list: list of Jordan-Wigner strings 
+
+    Note:
+        In future, want to include group code on inverse mappings between encodings
+        And does quimb need I's for empty indices on edges? 
+    """
+    JWl = []
+    for i in range(N):
+        JWl.append('Z'*i + 'X')
+        JWl.append('Z'*i + 'Y')
+    return JWl
+
+    #quimb.Pauli(string) should work 
+
+def multiply_paulis(p1, p2):
+    """Multiply two single-qubit Pauli operators.
+
+    Args:
+        p1 (str): First Pauli operator ('I', 'X', 'Y', or 'Z')
+        p2 (str): Second Pauli operator ('I', 'X', 'Y', or 'Z')
+
+    Returns:
+        tuple: (phase, result) where phase is 1, -1, 1j, or -1j and result is the Pauli string
+    """
+    # Identity cases
+    if p1 == 'I':
+        return 1, p2
+    if p2 == 'I':
+        return 1, p1
+
+    # Same Pauli -> Identity
+    if p1 == p2:
+        return 1, 'I'
+
+    # Different Paulis - need to track phase
+    # X*Y = iZ, Y*X = -iZ
+    # Y*Z = iX, Z*Y = -iX
+    # Z*X = iY, X*Z = -iY
+
+    pauli_mult = {
+        ('X', 'Y'): (1j, 'Z'),
+        ('Y', 'X'): (-1j, 'Z'),
+        ('Y', 'Z'): (1j, 'X'),
+        ('Z', 'Y'): (-1j, 'X'),
+        ('Z', 'X'): (1j, 'Y'),
+        ('X', 'Z'): (-1j, 'Y'),
+    }
+
+    return pauli_mult[(p1, p2)]
+
+
+def multiply_strings(s1, s2):
+    """Multiply two Pauli strings and track the phase.
+
+    Args:
+        s1 (str): First Pauli string (e.g., 'XYZ', 'ZX', 'Y')
+        s2 (str): Second Pauli string (same length as s1)
+
+    Returns:
+        tuple: (phase, result_string) where phase is complex (1, -1, 1j, -1j)
+               and result_string is the resulting Pauli string
+
+    Note:
+        Strings are padded with 'I' if they have different lengths.
+    """
+    # Pad shorter string with 'I' to match lengths
+    max_len = max(len(s1), len(s2))
+    s1 = s1 + 'I' * (max_len - len(s1))
+    s2 = s2 + 'I' * (max_len - len(s2))
+
+    total_phase = 1
+    result = ''
+
+    for p1, p2 in zip(s1, s2):
+        phase, pauli = multiply_paulis(p1, p2)
+        total_phase *= phase
+        result += pauli
+
+    return total_phase, result
+
+
+def random_pauli(N):
+
+    """Generates a random Pauli string
+
+    Args:
+        N (int): Number of qubits in the system.
+
+    Returns:
+        string: random Pauli string
+    """
+
+    rand_pauli = ""
+    for _ in range(N):
+        rand_pauli += random.choice(["X", "Y", "Z", "I"])
+    return rand_pauli
