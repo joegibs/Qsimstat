@@ -4,8 +4,8 @@
 #structure and workflow. 
 '''
 
-from gates import *
-from DataFunctions import *
+from Experiments.utils.gates import *
+from Experiments.utils.DataFunctions import *
 import quimb.tensor as qtn
 import numpy as np
 #import scipy.linalg as lng

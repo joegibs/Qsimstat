@@ -12,10 +12,10 @@ every 10 layers with 1 iteration to verify the Experiment class works correctly.
 
 import numpy as np
 import matplotlib.pyplot as plt
-from Experiment import Experiment
-from gates import JW
+from Experiments.Experiment import Experiment
+from Experiments.utils.gates import JW
 import quimb.tensor as qtn
-from gates import make_ortho
+from Experiments.utils.gates import make_ortho
 
 # Test parameters
 N = 8  # Number of qubits
@@ -97,7 +97,7 @@ def setup_experiment(circuit_type, initial_state_name):
 
 def run_experiment(exp):
     """Run the experiment with the specified circuit and initial state."""
-    from gates import Sample_Clifford, PPgate
+    from Experiments.utils.gates import Sample_Clifford, PPgate
 
     print(f"\n{'='*60}")
     print(f"Running: {exp.circuit_type.upper()} on {exp.initial_state_name.upper()} state")
@@ -131,7 +131,7 @@ def run_experiment(exp):
 
 def run_circuit_fixed(exp, instruction, state, depth, iter_idx):
     """Fixed version of run_circuit that properly handles brickwork patterns."""
-    from gates import Sample_Clifford, PPgate
+    from Experiments.utils.gates import Sample_Clifford, PPgate
 
     data_interval = int(exp.circuittag["dataC"])
 
@@ -170,7 +170,7 @@ def run_circuit_fixed(exp, instruction, state, depth, iter_idx):
 
 def compute_data_fixed(exp, state, it, point):
     """Fixed version of compute_data that properly computes all statistics."""
-    from DataFunctions import Renyi10, FAF, ESS, flatness, IPR
+    from Experiments.utils.DataFunctions import Renyi10, FAF, ESS, flatness, IPR
 
     if exp.statstag["renyi10"]:
         exp.frames["renyi10"][it, point] = Renyi10(state, exp.N)

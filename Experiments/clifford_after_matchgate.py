@@ -33,10 +33,10 @@ import sys
 import os
 import time
 # Add parent directory to path to import Experiment
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append("/")
 
-from Experiment import Experiment
-from gates import JW, make_ortho
+from Experiments.Experiment import Experiment
+from Experiments.utils.gates import JW, make_ortho
 import numpy as np
 import quimb.tensor as qtn
 
@@ -139,7 +139,7 @@ def run_circuit_with_timing(exp, instruction, state, depth, iter_idx, timing_dic
         iter_idx: Iteration index
         timing_dict: Dictionary to store timing results
     """
-    from gates import Sample_Clifford, PPgate
+    from Experiments.utils.gates import Sample_Clifford, PPgate
 
     gate_time = 0
     data_time = 0
@@ -192,7 +192,7 @@ def run_circuit_with_timing(exp, instruction, state, depth, iter_idx, timing_dic
 
 def compute_data_with_timing(exp, state, it, point, data_breakdown):
     """Compute data with per-statistic timing."""
-    from DataFunctions import Renyi10, FAF, ESS, flatness, IPR, bonddim, repulsion, SFF, porter_thomas, SRE
+    from Experiments.utils.DataFunctions import Renyi10, FAF, ESS, flatness, IPR, bonddim, repulsion, SFF, porter_thomas, SRE
 
     if exp.statstag["renyi10"]:
         start = time.time()
