@@ -24,11 +24,11 @@ T = np.array([[1,0],[0,np.exp(1j*np.pi/4)]])
 #list of gates needed for random clifford generation
 delta_list = [Id, CNOT, CNOTb, SWAP]
 sl = [-1, 1]
-#am i missing a Pauli or two here? 
-Pauli_list = [Id, np.kron(X, sId), np.kron(X, Z), np.kron(X,X),
-              np.kron(Z, sId), np.kron(Z, Z), np.kron(Z,X),
-              np.kron(sId, X), np.kron(sId, Z), np.real(np.kron(Y, Y)),
-              np.kron(Y, sId), np.kron(sId, Y), np.kron(Y, Z), np.kron(Z, Y)]
+
+Pauli_list = [Id, np.kron(sId, X), np.kron(sId, Z),np.kron(sId, Y),
+            np.kron(X, sId), np.kron(X, X), np.kron(X, Z), np.kron(X,Y),
+            np.kron(Z, sId), np.kron(Z, Z), np.kron(Z,X),np.kron(Z, Y),
+            np.kron(Y, sId),np.real(np.kron(Y, Y)),np.kron(Y, Z), np.kron(Y, X)]
 Had_list = [Id, np.kron(H, sId), np.kron(sId, H), np.kron(H,H)]
 Swapo = [Id, SWAP]
 Phase_l = [np.kron(sId, P), np.kron(P, sId), Id, np.kron(P, P)]
