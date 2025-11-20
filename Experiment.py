@@ -140,23 +140,9 @@ class Experiment:
             Currently assumes MPS tracking only. Data is collected at intervals
             specified by self.circuittag["dataC"].
 
-            More product-like initial states can be added (e.g., three_q, four_q).
+            want to implement more, such as clifford+T, MG+Swap, and the 
+            others in here. 
         """
-
-        '''
-        more product-like initial states
-        elif init_state == 'three_q':
-            for i in np.arange(0, self.N, 3):
-                for j in range(3):
-                    self.mps.gate_split(make_ortho(4,0,1), (i, i+1),inplace=True)
-                    self.mps.gate_split(make_ortho(4,0,1), (i+1, i+2),inplace=True)
-        elif init_state == 'four_q':
-            for i in np.arange(0, self.N, 4):
-                for j in range(3):
-                    self.mps.gate_split(make_ortho(4,0,1), (i, i+1),inplace=True)
-                    self.mps.gate_split(make_ortho(4,0,1), (i+2, i+3),inplace=True)
-                    self.mps.gate_split(make_ortho(4,0,1), (i+1, i+2),inplace=True)
-'''
 
         if instruction == "random_product":
             for site in range(self.N):
