@@ -251,9 +251,9 @@ def flatness(state, N):
     schmidt_vals = state.schmidt_values(N//2)
     # Normalize Schmidt values (they should already be normalized, but ensure it)
     probs = schmidt_vals**2
-    probs = probs / np.sum(probs)
+    probs = np.trim_zeros(probs / np.sum(probs))
     # Calculate entanglement entropy
-    entropy = -np.sum(probs * np.log(probs + 1e-16))  # add small value to avoid log(0)
+    entropy = -np.sum(probs * np.log(probs))
     # Flatness is the ratio of actual entropy to maximum possible entropy
     max_entropy = np.log(len(probs))
     flatness_val = np.exp(entropy) / len(probs) if len(probs) > 0 else 0
@@ -356,14 +356,15 @@ def SRE(state, N, alpha=2, num_samples=1000):
     pauli_probs = np.abs(np.array(pauli_expectations))**2
 
     # Normalize the distribution
-    pauli_probs = pauli_probs / np.sum(pauli_probs)
+    pauli_probs = np.array(pauli_probs / np.sum(pauli_probs))
 
     # Compute Stabilizer Renyi Entropy
     # M_alpha = (1/(1-alpha)) * log(sum_P |<P>|^(2*alpha))
     if alpha == 1:
         # von Neumann-like entropy (limit case)
         # M_1 = -sum(p * log(p))
-        sre = -np.sum(pauli_probs * np.log(pauli_probs + 1e-16))
+        pauli_probs = np.trim_zeros(pauli_probs)
+        sre = -np.sum(pauli_probs * np.log(pauli_probs))
     else:
         # Renyi entropy
         sre = (1.0 / (1.0 - alpha)) * np.log(np.sum(pauli_probs**alpha))
