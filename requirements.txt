@@ -1,0 +1,2 @@
+quimb
+pandas

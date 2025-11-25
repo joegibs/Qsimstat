@@ -181,7 +181,7 @@ def FAF(state, encoding, N, k):
         matrix directly or compute it from the state.
         Assumes symbolic encoding of 2N majoranas/Paulis.
     """
-    from gates import multiply_strings
+    from Experiments.utils.gates import multiply_strings
 
     # Build covariance matrix using MPS expectation values
     cov = np.zeros((2*N, 2*N), dtype=complex)
@@ -339,7 +339,7 @@ def SRE(state, N, alpha=2, num_samples=1000):
         Implementation uses random sampling of Pauli strings for efficiency.
     """
 
-    from gates import random_pauli
+    from Experiments.utils.gates import random_pauli
 
     # Sample random Pauli strings and compute their expectation values
     pauli_expectations = []
